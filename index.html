@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Currency Converter</title>
+  <style>
+    body {
+      background-color: #f0f8ff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .converter {
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    #result {
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="converter">
+  <h2>Currency Converter</h2>
+
+  <input type="number" id="amount" placeholder="Enter amount">
+
+  <select id="fromCurrency">
+    <option value="USD">USD - $</option>
+    <option value="INR">INR - ₹</option>
+    <option value="EUR">EUR - €</option>
+    <option value="GBP">GBP - £</option>
+  </select>
+
+  <select id="toCurrency">
+    <option value="INR">INR - ₹</option>
+    <option value="USD">USD - $</option>
+    <option value="EUR">EUR - €</option>
+    <option value="GBP">GBP - £</option>
+  </select>
+
+  <button onclick="convertCurrency()">Convert</button>
+
+  <div id="result"></div>
+</div>
+
+<script>
+  const exchangeRates = {
+    USD: { INR: 83.3, EUR: 0.91, GBP: 0.78, USD: 1 },
+    INR: { USD: 0.012, EUR: 0.011, GBP: 0.0094, INR: 1 },
+    EUR: { USD: 1.1, INR: 91.2, GBP: 0.86, EUR: 1 },
+    GBP: { USD: 1.3, INR: 107.5, EUR: 1.16, GBP: 1 }
+  };
+
+  const currencySymbols = {
+    USD: "$",
+    INR: "₹",
+    EUR: "€",
+    GBP: "£"
+  };
+
+  function convertCurrency() {
+  let amount = parseFloat(document.getElementById("amount").value);
+  let from = document.getElementById("fromCurrency").value;
+  let to = document.getElementById("toCurrency").value;
+
+  if (isNaN(amount)) {
+    document.getElementById("result").innerText = "Please enter a valid amount.";
+    return;
+  }
+
+  let rate = exchangeRates[from][to];
+  let converted = amount * rate;
+
+  let fromSymbol = currencySymbols[from];
+  let toSymbol = currencySymbols[to];
+
+  document.getElementById("result").innerText =
+    `${fromSymbol}${amount} ${from} = ${toSymbol}${converted.toFixed(2)} ${to}`;
+}
+
+</script>
+
+</body>
+</html>
